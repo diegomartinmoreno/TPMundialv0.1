@@ -20,14 +20,14 @@ void imprimirCabeceraMenuPrincipal(){
 }
 
 void imprimirMenuPrincipal(){
-    printf("\n |-| 1) Mostrar Equipos.");
-    printf("\n |-| 2) Mostrar Grupos.");
-    printf("\n |-| 3) Mostrar Partidos Fase de Grupos.");
-    printf("\n |-| 4) Mostrar Partidos PlayOffs.");
-    printf("\n |-| 5) Simular Partidos.");
-    printf("\n |-| 6) Reiniciar base de datos Equipos.");
-    printf("\n |-| 7) Reiniciar base de datos Partidos.");
-    printf("\n |-| 8) Guardar y Salir.\n");
+    printf("\n |-| 1) Mostrar Grupos. //FUNCIONA");
+    printf("\n |-| 2) Mostrar Partidos Fase de Grupos.");
+    printf("\n |-| 3) Mostrar Partidos PlayOffs.");
+    printf("\n |-| 4) Simular Partidos.");
+    printf("\n |-| 5) Agregar un partido de fase de grupos.");
+    printf("\n |-| 6) Reiniciar base de datos Equipos. //FUNCIONA");
+    printf("\n |-| 7) Reiniciar base de datos Partidos. //FUNCIONA");
+    printf("\n |-| 8) Salir. //FUNCIONA\n");
 }
 
 /// FIN DE IMPRESIONES DE MENU PRINCIPAL.

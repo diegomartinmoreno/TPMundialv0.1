@@ -4,14 +4,16 @@
 int main()
 {
     Grupo arrayGrupoEquipos[TAM_MAX_GRUPOS];
-    GrupoPartido arrayGrupoPartidos[100];
+    GrupoPartido arrayGrupoPartidos[TAM_MAX_GRUPOS];
     fase arrayFase[4];
     traerDesdeBaseArrayGrupo(arrayGrupoEquipos);
+   /// traerDesdeBaseArrayPartidos(arrayGrupoPartidos);
     iniciarMenuPrincipal(arrayGrupoPartidos, arrayFase, arrayGrupoEquipos);
     system("pause");
     system("cls");
     return 0;
 }
+
 
 
 

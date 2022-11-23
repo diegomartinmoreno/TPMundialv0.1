@@ -24,7 +24,6 @@ typedef struct
 {
     float probEquipo1;
     float probEquipo2;
-
 } probabilidad;
 
 typedef struct /// por consigna, solo se guardan partidos de fase de grupos, ya que el resto se simula.
@@ -44,11 +43,12 @@ typedef struct
     int ga;   /// goles en contra
     int win;  /// partidos ganados
     int loss; /// partidos perdidos
+    float proba; /// probabilidad de ganar
 } Equipo;
 
 typedef struct
 {
-    int id; /// FORMATO: 10 a 19 grupo A, 20 a 29 grupo B, etc. -1= no es fase de grupos.
+    int id;
     int fecha; /// DDMM
     Equipo* equipo1;
     Equipo* equipo2;

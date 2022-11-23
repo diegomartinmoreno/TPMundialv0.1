@@ -28,5 +28,8 @@ void imprimirArrayGrupoPartidos (GrupoPartido arrayGrupoPartidos[]);
 char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[]);
 void iniciarMenuPrincipal(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[]);
 
+/*----------------------------------------*/
+///simulacionPartidos.c
+///COMPLETAR
 
 #endif // DECLARACIONES_FUNCIONES_H_INCLUDED

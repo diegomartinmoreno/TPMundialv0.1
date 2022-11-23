@@ -152,9 +152,9 @@ void crearArrayGrupoPartido(){ /// Crear base de datos de partidos de cada grupo
 }
 
 void inicializarPartido(Partido *nuevo){
-    /// Nota: Dentro de la estructura Partido, el valor -1 o 'NO' (en strings) representa el estado de variable no asignada aun.
-    strcpy(nuevo->equipo1->nomEquipo, "NO");
-    strcpy(nuevo->equipo2->nomEquipo, "NO");
+    /// Nota: Dentro de la estructura Partido, el valor -1 (int) o 'NO' (string) representa el estado de variable no asignada aun.
+    ///strcpy(nuevo->equipo1->nomEquipo, "NO");
+    ///strcpy(&(nuevo->equipo2->nomEquipo), "NO");
     nuevo->fecha=-1;
     nuevo->golesEq1=-1;
     nuevo->golesEq2=-1;
