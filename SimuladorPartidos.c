@@ -1,17 +1,17 @@
 #include "declaraciones_variables.h"
 #include "declaraciones_funciones.h"
 
-void simularPartido (Partido * partidoAsimular)
+void simularPartido (Partido partidoAsimular)
 {
 
     srand(time(NULL));
 
     int rand1 = (rand()%6);
     int rand2 = (rand()%6);
-    int randPenales = (rand()%100)
+    int randPenales = (rand()%100);
 
 
-                      Equipo * ganador;
+    Equipo * ganador;
     Equipo * perdedor;
 
     partidoAsimular.golesEq1 = rand1; ///goles aleatorios para ambos equipos
@@ -20,26 +20,26 @@ void simularPartido (Partido * partidoAsimular)
     ///paso estadisticas
 
     ///goles a favor y en contra
-    partidoAsimular.equipo1.gf = partidoAsimular.equipo1.gf + partidoAsimular.golesEq1;
-    partidoAsimular.equipo1.ga = partidoAsimular.equipo1.ga + partidoAsimular.golesEq2;
-    partidoAsimular.equipo2.gf = partidoAsimular.equipo1.gf + partidoAsimular.golesEq2;
-    partidoAsimular.equipo2.ga = partidoAsimular.equipo2.ga + partidoAsimular.golesEq1;
+    partidoAsimular.equipo1->gf= partidoAsimular.equipo1->gf + partidoAsimular.golesEq1;
+    partidoAsimular.equipo1->ga = partidoAsimular.equipo1->ga + partidoAsimular.golesEq2;
+    partidoAsimular.equipo2->gf = partidoAsimular.equipo1->gf + partidoAsimular.golesEq2;
+    partidoAsimular.equipo2->ga = partidoAsimular.equipo2->ga + partidoAsimular.golesEq1;
     ///sumo partido
-    partidoAsimular.equipo1.mp = partidoAsimular.equipo1.mp++;
-    partidoAsimular.equipo2.mp = partidoAsimular.equipo2.mp++;
+    partidoAsimular.equipo1->mp = partidoAsimular.equipo1->mp++;
+    partidoAsimular.equipo2->mp = partidoAsimular.equipo2->mp++;
     ///ganar o perder
     if(partidoAsimular.golesEq1 > partidoAsimular.golesEq2)  ///gana equipo 1
     {
-        partidoAsimular.equipo1.win++;
-        partidoAsimular.equipo2.loss++;
+        partidoAsimular.equipo1->win++;
+        partidoAsimular.equipo2->loss++;
 
         ganador = partidoAsimular.equipo1;
         perdedor = partidoAsimular.equipo2;
     }
     else if (partidoAsimular.golesEq2 > partidoAsimular.golesEq1) /// gana equipo 2
     {
-        partidoAsimular.equipo2.win++;
-        partidoAsimular.equipo1.loss++;
+        partidoAsimular.equipo2->win++;
+        partidoAsimular.equipo1->loss++;
 
         ganador = partidoAsimular.equipo2;
         perdedor = partidoAsimular.equipo1;
@@ -53,8 +53,8 @@ void simularPartido (Partido * partidoAsimular)
                 partidoAsimular.penales1 = 1;  ///gano el equipo 1
                 partidoAsimular.penales2 = 0;
 
-                partidoAsimular.equipo1.win++;
-                partidoAsimular.equipo2.loss++;
+                partidoAsimular.equipo1->win++;
+                partidoAsimular.equipo2->loss++;
 
                 ganador = partidoAsimular.equipo1;
                 perdedor = partidoAsimular.equipo2;
@@ -65,8 +65,8 @@ void simularPartido (Partido * partidoAsimular)
                 partidoAsimular.penales1 = 0;
                 partidoAsimular.penales2 = 1;  ///gano el equipo 2
 
-                partidoAsimular.equipo2.win++;
-                partidoAsimular.equipo1.loss++;
+                partidoAsimular.equipo2->win++;
+                partidoAsimular.equipo1->loss++;
 
                 ganador = partidoAsimular.equipo2;
                 perdedor = partidoAsimular.equipo1;
@@ -78,19 +78,19 @@ void simularPartido (Partido * partidoAsimular)
 
 }
 
-void simularPartidoArreglado (Partido * partidoAsimular, char equipoASimular[], int clasifica) /// para los casos en los que el usuario quiera que un equipo clasifique o no .
+void simularPartidoArreglado (Partido  partidoAsimular, char equipoASimular[], int clasifica) /// para los casos en los que el usuario quiera que un equipo clasifique o no .
 {
     srand(time(NULL));
     int rand1 = (rand()%6+1);   ///que gane 5 a 0 como maximo
     int rand2 = 0;
-    if(strcmpi(partidoAsimular.equipo1, equipoASimular)== 0)  ///ganara el primero
+    if(strcmpi(partidoAsimular.equipo1->nomEquipo, equipoASimular)== 0)  ///ganara el primero
     {
         partidoAsimular.golesEq1 = rand1; ///1 a 5
         partidoAsimular.golesEq2 = rand2; /// 0
     }
     else
     {
-        if (strcmpi(partidoAsimular.equipo2, equipoASimular) == 0)  ///ganara el segundo
+        if (strcmpi(partidoAsimular.equipo2->nomEquipo, equipoASimular) == 0)  ///ganara el segundo
         {
           partidoAsimular.golesEq1 = rand2; ///0
           partidoAsimular.golesEq2 = rand1;  ///1 a 5
@@ -136,14 +136,14 @@ void simularFaseDeGrupos (GrupoPartido arrayPartidosGrupos[])  ///simula fase de
     }
 }
 
-void simulaGrupo (nodoPartido * partidosGrupo)  ///funcion primaria. Pide si queres arreglar el resultado y en base a eso ejecuta
+void simulaGrupo (nodoPartido * partidosGrupo)  ///funcion primaria. Simula grupo aleatoriamente
 {
     if(partidosGrupo)
     {
         nodoPartido * seg = partidosGrupo;
         while(seg)
         {
-            simularPartido(seg>partido);
+            simularPartido(seg->partido);
             seg = seg->siguiente;
         }
     }
@@ -158,7 +158,7 @@ void simulaGrupoArreglado (nodoPartido * partidosGrupo, char equipoASimular[], i
         {
             if(strcmpi(seg->partido.equipo1, equipoASimular) == 0 || strcmpi(seg->partido.equipo2, equipoASimular) == 0)  ///chequeo que el equipo que quiero simular este entre los dos que juegan partido
             {
-                simularPartidoArreglado(seg->partido, equipoASimular);   ///simulo el partido con las estadisticas forzadas
+                simularPartidoArreglado(seg->partido, equipoASimular, clasifica);   ///simulo el partido con las estadisticas forzadas
             }
             seg = seg->siguiente;
         }
@@ -279,17 +279,6 @@ nodoPartido* crearNodoPartido(Equipo* uno, Equipo* dos)
 
 ///SIMULACION COMPLETA DE PLAYOFFS
 
-void simularPlayoffs (fase arrayFase[])
-{
-    pasarGanadoresAPlayoffOcatvos(arrayEquiposGrupos, arrayFase);
-
-
-
-}
-
-
-
-
 void insertarPartidoOctavos(nodoPartido** listaPartidos, nodoPartido* partidin)  ///octavos
 {
 
@@ -362,35 +351,35 @@ Equipo* vencedor(Partido match)///RETORNA EL EQUIPO GANADOR DEL PARTIDO
 
 void pasarEquiposACuartos(nodoPartido* lista, nodoPartido** listaCuartos)///la "lista" es de octavos
 {
-    simularPartido(lista);
+    simularPartido(lista->partido);
     Equipo* ganador1 = vencedor(lista->partido);///PARTIDO 1A VS 2B
     lista = lista->siguiente;
 
-     simularPartido(lista);
+     simularPartido(lista->partido);
     Equipo* ganador2 = vencedor(lista->partido);///PARTIDO 1B VS 2A
     lista = lista->siguiente;
 
-     simularPartido(lista);
+     simularPartido(lista->partido);
     Equipo* ganador3 = vencedor(lista->partido);///PARTIDO 1C VS 2D
     lista = lista->siguiente;
 
-     simularPartido(lista);
+     simularPartido(lista->partido);
     Equipo* ganador4 = vencedor(lista->partido);///PARTIDO 1D VS 2C
     lista = lista->siguiente;
 
-     simularPartido(lista);
+     simularPartido(lista->partido);
     Equipo* ganador5 = vencedor(lista->partido);///PARTIDO 1E VS 2F
     lista = lista->siguiente;
 
-     simularPartido(lista);
+     simularPartido(lista->partido);
     Equipo* ganador6 = vencedor(lista->partido);///PARTIDO 1F VS 2E
     lista = lista->siguiente;
 
-     simularPartido(lista);
+     simularPartido(lista->partido);
     Equipo* ganador7 = vencedor(lista->partido);///PARTIDO 1G VS 2H
     lista = lista->siguiente;
 
-     simularPartido(lista);
+     simularPartido(lista->partido);
     Equipo* ganador8 = vencedor(lista->partido);///PARTIDO 1H VS 2G
 
 
@@ -428,19 +417,19 @@ void pasarGanadoresACuartos(fase arrayFase[])
 
 void pasarEquiposASemis(nodoPartido* listaCuartos, nodoPartido** listaSemis)
 {
-     simularPartido(listaCuartos);
+     simularPartido(listaCuartos->partido);
     Equipo* semi1 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador1 vs ganador3
     listaCuartos = listaCuartos->siguiente;
 
-     simularPartido(listaCuartos);
+     simularPartido(listaCuartos->partido);
     Equipo* semi2 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador5 vs ganador7
     listaCuartos = listaCuartos->siguiente;
 
-     simularPartido(listaCuartos);
+     simularPartido(listaCuartos->partido);
     Equipo* semi3 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador2 vs ganador4
     listaCuartos = listaCuartos->siguiente;
 
-     simularPartido(listaCuartos);
+     simularPartido(listaCuartos->partido);
     Equipo* semi4 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador6 vs ganador8
     listaCuartos = listaCuartos->siguiente;
 
@@ -490,10 +479,11 @@ Equipo* perdedor(Partido match)///RETORNA EL EQUIPO PERDEDOR DEL PARTIDO
 
 void pasarEquiposATercerPuesto(nodoPartido* listaSemis, nodoPartido** listaTercerPuesto)
 {
-     simularPartido(listaSemis);
+     simularPartido(listaSemis->partido);
     Equipo* derrotado1 = perdedor(listaSemis->partido);
     listaSemis = listaSemis->siguiente;
 
+    simularPartido(listaSemis->partido);
     Equipo* derrotado2 = perdedor(listaSemis->partido);
 
     nodoPartido* match = crearNodoPartido(derrotado1, derrotado2);
@@ -511,7 +501,6 @@ void pasarGanadoresATercerPuesto(fase arrayFase[])
 
 void pasarEquiposAFinal(nodoPartido* listaSemis, nodoPartido** listaFinal)
 {
-     simularPartido(listaSemis);
     Equipo* finalista1 = vencedor(listaSemis->partido);
     listaSemis = listaSemis->siguiente;
 
@@ -529,4 +518,13 @@ void pasarGanadoresAFinal(fase arrayFase[])
 }
 
 
+void jugarFinal (fase arrayFase[])
+{
+    pasarGanadorYSegundoPuesto (arrayFase[4].partidos);
+}
 
+void pasarGanadorYSegundoPuesto (nodoPartido * listaFinal)
+{
+    Equipo * Campeon = vencedor(listaFinal->partido);
+    Equipo * subCampeon = perdedor(listaFinal->partido);
+}
