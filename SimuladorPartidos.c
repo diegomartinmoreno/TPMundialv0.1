@@ -280,7 +280,7 @@ nodoPartido* crearNodoPartido(Equipo* uno, Equipo* dos)
 ///SIMULACION COMPLETA DE PLAYOFFS
 
 
-void simularPlayoffs(GrupoPartido arrayPartidosGrupos [], nodoEquipo * listaEquipos) /// SIMULACION COMPLETA DE PLAYOFFS
+void simularPlayoffs(GrupoPartido arrayPartidosGrupos [], nodoEquipo * listaEquipos, Grupo arrayEquiposGrupos[], fase arrayFase[]) /// SIMULACION COMPLETA DE PLAYOFFS
 {
     int faseDeGruposTerminada = ChequearFaseDeGrupo(listaEquipos);
     if(faseDeGruposTerminada == 0)
