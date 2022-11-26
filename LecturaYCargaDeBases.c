@@ -10,14 +10,29 @@
 /// Cualquier estructura que contenga un puntero nodoEquipo, apuntara siempre a la misma direccion de memoria para cada respectivo equipo.
 /// Cambios en un equipo en una estructura, afetará a todas las demás que incluyan a ese equipo.
 
+/// GLOSARIO:
+
+/// 1) - Codigo relacionado a estructura Grupo (equipos).
+///     1.1) CREAR BaseArrayGrupo.
+///     1.2) LEVANTAR BaseArrayGrupo en lista simple de equipos nodoEquipo.
+///     1.3) VINCULAR Grupo arrayGrupoEquipos[] a la lista simple de equipos nodoEquipo.
+
+/// 2) - Codigo relacionado a estructura GrupoPartido (partidos)
+///     2.1) AGREGAR, REINICIAR Y CARGAR DEFAULT para BaseArrayPartidos.bin
+///     2.2) LEVANTAR Y VINCULAR desde BaseArrayPartidos.bin a arrayGrupoPartidos[] (equipos de esta estructura apuntaran a lista simple nodoEquipo.
+
 /*----------------------------------------*/
 
-/// INICIO de codigo para < CREAR > BaseArrayGrupo.bin (EQUIPOS), solo para primera ejecución.
+/// 1) INICIO de codigo relacionado a estructura Grupo (equipos).
 
+/*----------------------------------------*/
+
+///     1.1) INICIO de codigo para < CREAR > BaseArrayGrupo.bin (EQUIPOS), solo para primera ejecución.
 
 void crearNuevaBaseGrupo(){ /// Crear base de datos de grupos A, B ... H. ¡SOLO PARA PRIMERA EJECUCION!
 
-    /// Nota: Teniendo en cuenta que cada grupo SIEMPRE tiene < 4 > equipos, no guardo la letra del grupo. El formato de la base de datos es de Equipo1, Equipo2.... EquipoN...
+    /// Nota: Teniendo en cuenta que cada grupo SIEMPRE tiene < 4 > equipos, no guardo la letra del grupo.
+    /// El formato de la base de datos es de Equipo1, Equipo2.... EquipoN...
 
     FILE *fp=NULL;
     Equipo auxiliar;
@@ -38,11 +53,163 @@ void crearNuevaBaseGrupo(){ /// Crear base de datos de grupos A, B ... H. ¡SOLO 
     fclose(fp);
 }
 
-/// FIN de codigo para < CREAR > BaseArrayGrupo.bin (EQUIPOS), solo para primera ejecución.
+void cargarDefaultBaseGrupo(){
+    FILE *fp_backup=NULL;
+    FILE *fp_base=NULL;
+    Equipo lectura;
+    fp_backup=fopen("./BaseArrayGrupo - BACKUP.bin", "r");
+    fp_base=fopen("./BaseArrayGrupo.bin", "w");
+    while (fread(&lectura, sizeof(Equipo),1,fp_backup)){
+        fwrite(&lectura, sizeof(Equipo), 1, fp_base);
+    }
+    fclose(fp_backup);
+    fclose(fp_base);
+}
+
+///     FIN de codigo para < CREAR > BaseArrayGrupo.bin (EQUIPOS), solo para primera ejecución.
 
 /*----------------------------------------*/
 
-/// INICIO de codigo para < CREAR > BaseArrayPartidos.bin (PARTIDOS), solo para primera ejecución.
+///     1.2) INICIO de codigo para < LEVANTAR > BaseArrayGrupos.bin y volcarlo en lista simple de equipos.
+
+void inicializarEquipo(Equipo *nuevo, char nombre[]){
+    strcpy(nuevo->nomEquipo, nombre);
+    nuevo->mp=0;
+    nuevo->ga=0;
+    nuevo->gf=0;
+    nuevo->loss=0;
+    nuevo->win=0;
+    nuevo->pts=0;
+}
+
+nodoEquipo *inicializarNodoEquipo (nodoEquipo *nuevo, char nombre[]){
+    nuevo=malloc(sizeof(nodoEquipo));
+    inicializarEquipo(&nuevo->equipo, nombre);
+    nuevo->siguiente=NULL;
+    return nuevo;
+}
+
+nodoEquipo *leerListaEquipos (){
+    FILE *fp;
+    nodoEquipo *inicioLista=NULL;
+    nodoEquipo *seguidor=NULL;
+    nodoEquipo *anterior=NULL;
+    Equipo lectura;
+    fp=fopen("./BaseArrayGrupo.bin", "r");
+    if (fp){
+        inicioLista=inicializarNodoEquipo(inicioLista, "NO");
+        seguidor=inicioLista;
+        for (int j=0; j<TAM_MAX_GRUPOS; j++){ /// Cargo los equipos de los 8 grupos.
+            for (int i=0; i<TAM_MAX_GRUPO; i++){ /// Cargo los 4 equipos de cada grupo.
+                fread(&lectura, sizeof(Equipo), 1, fp);
+                strcpy(seguidor->equipo.nomEquipo, lectura.nomEquipo);
+                seguidor->siguiente=inicializarNodoEquipo(seguidor->siguiente, "NO");
+                anterior=seguidor;
+                seguidor=seguidor->siguiente;
+            }
+        }
+    }else{
+        puts("Error al abrir base de datos de equipos, se necesita crear una nueva base de datos de equipos o cargar la base por defecto.\n");
+    }
+    anterior->siguiente=NULL;
+    fclose(fp);
+    return inicioLista;
+}
+
+/// PARA VERIFICACION SOLAMENTE.
+/*
+void verificacionImprimirListaEquipos (nodoEquipo *equipos){
+    nodoEquipo *seguidor;
+    seguidor=equipos;
+    while (seguidor){
+        printf ("Nombre del equipo: %s\n", seguidor->equipo.nomEquipo);
+        seguidor=seguidor->siguiente;
+    }
+}
+*/
+
+///     FIN de codigo para < LEVANTAR > BaseArrayGrupos.bin y volcarlo en lista simple de equipos.
+
+/*----------------------------------------*/
+
+///     1.3) INICIO de codigo para < VINCULAR > equipos en el arreglo de grupos con equipos de la lista simple.
+
+void inicializarArrayGrupoEquipos (Grupo arrayGrupoEquipos[]){
+    char idGrupos[TAM_MAX_GRUPOS]= {'A', 'B', 'C', 'D', 'E', 'F','G', 'H'};
+    for (int i=0; i<TAM_MAX_GRUPOS; i++){
+        arrayGrupoEquipos[i].letra=idGrupos[i];
+        arrayGrupoEquipos[i].equipos=NULL;
+    }
+}
+
+nodoGrupoEquipo *inicializarNodoGrupoEquipo(nodoGrupoEquipo *nuevo){
+    nuevo=malloc(sizeof(nodoGrupoEquipo));
+    nuevo->siguiente=NULL;
+    nuevo->equipo=NULL;
+    return nuevo;
+}
+
+nodoGrupoEquipo *agregarNodoGrupoEquipo(nodoGrupoEquipo *listaGrupoEquipo, nodoGrupoEquipo *nuevo){
+    nodoGrupoEquipo *anterior;
+    nodoGrupoEquipo *seguidor;
+    if (listaGrupoEquipo){
+            seguidor=listaGrupoEquipo;
+        while (seguidor){
+            anterior=seguidor;
+            seguidor=seguidor->siguiente;
+        }
+        anterior->siguiente=nuevo;
+    }else{
+        listaGrupoEquipo=nuevo;
+    }
+    return listaGrupoEquipo;
+}
+
+void vincularAListaArrayGruposEquipos (Grupo arrayGrupoEquipos[], nodoEquipo *listaEquipos){
+    nodoEquipo *seguidorListaEquipos;
+    nodoGrupoEquipo *nuevo;
+    seguidorListaEquipos=listaEquipos;
+    inicializarArrayGrupoEquipos(arrayGrupoEquipos);
+    if (seguidorListaEquipos){
+        for (int i=0; i<TAM_MAX_GRUPOS; i++){
+            for (int j=0; j<(TAM_MAX_GRUPO); j++){
+                nuevo=inicializarNodoGrupoEquipo(nuevo);
+                nuevo->equipo = &(seguidorListaEquipos->equipo);
+                arrayGrupoEquipos[i].equipos=agregarNodoGrupoEquipo(arrayGrupoEquipos[i].equipos, nuevo);
+                seguidorListaEquipos=seguidorListaEquipos->siguiente; /// lista de equipos.
+            }
+        }
+    }
+}
+
+///     FIN de codigo para < VINCULAR > equipos en el arreglo de grupos con equipos de la lista simple.
+
+/*----------------------------------------*/
+
+///     2) INICIO DE CODIGO RELACIONADO A ESTRUCTURA GrupoPartido (Partidos).
+
+/*----------------------------------------*/
+
+///     2.1) INICIO de codigo para < AGREGAR > a BaseArrayPartidos.bin (PARTIDOS).
+
+void reiniciarBasePartidos (){
+    FILE *fp=NULL;
+    fp=fopen("./BaseArrayPartidos.bin", "w");
+    fclose(fp);
+}
+
+void cargarDefaultBasePartido(){
+    FILE *fp_backup=NULL;
+    FILE *fp_base=NULL;
+    partidoArchivo lectura;
+    fp_backup=fopen("./BaseArrayPartidos - BACKUP.bin", "r");
+    fp_base=fopen("./BaseArrayPartidos.bin", "w");
+    while (fread(&lectura, sizeof(partidoArchivo),1,fp_backup)){
+        fwrite(&lectura, sizeof(partidoArchivo), 1, fp_base);
+    }
+    fclose(fp_backup);
+    fclose(fp_base);
+}
 
 int verificarSiEstaEquipo (nodoEquipo *listaEquipos, char nombre[]){
     int encontrado=0;
@@ -68,7 +235,7 @@ int verificarGrupo (char grupo){
     return encontrado;
 }
 
-void crearArrayGrupoPartido(nodoEquipo *listaEquipos){ /// Crear base de datos de partidos de cada grupo. ¡SOLO PARA PRIMERA EJECUCION!
+void agregarABaseArrayGrupoPartido(nodoEquipo *listaEquipos){ /// Agrega partidos a la base de datos de partidos ya existente.
     FILE *fp=NULL;
     fp=fopen("./BaseArrayPartidos.bin", "a+");
     partidoArchivo guardar;
@@ -76,7 +243,7 @@ void crearArrayGrupoPartido(nodoEquipo *listaEquipos){ /// Crear base de datos d
     char confirmar='n';
 
     /// Nota: La base de datos guarda todos los PARTIDOS en estructuras partidoArchivo.
-    /// donde: < int fecha=DDMM > y < int fase=-1 > significa fase de grupos.
+    /// donde: < int fecha=DDMM >
 
     do{
         printf("Ingresar fecha (Solo numeros, formato DDMM):\n");
@@ -134,128 +301,12 @@ void crearArrayGrupoPartido(nodoEquipo *listaEquipos){ /// Crear base de datos d
     fclose(fp);
 }
 
-/// FIN de codigo para < CREAR > BaseArrayPartidos.bin (PARTIDOS), solo para primera ejecución.
+///     FIN de codigo para < AGREGAR, REINICIAR Y CARGAR DEFAULT > a BaseArrayPartidos.bin (PARTIDOS).
 
 /*----------------------------------------*/
 
-/// INICIO de codigo para < LEVANTAR > BaseArrayGrupos.bin y volcarlo en lista simple de equipos.
-
-void inicializarEquipo(Equipo *nuevo, char nombre[]){
-    strcpy(nuevo->nomEquipo, nombre);
-    nuevo->mp=0;
-    nuevo->ga=0;
-    nuevo->gf=0;
-    nuevo->loss=0;
-    nuevo->win=0;
-    nuevo->pts=0;
-}
-
-nodoEquipo *inicializarNodoEquipo (nodoEquipo *nuevo, char nombre[]){
-    nuevo=malloc(sizeof(nodoEquipo));
-    inicializarEquipo(&nuevo->equipo, nombre);
-    nuevo->siguiente=NULL;
-    return nuevo;
-}
-
-nodoEquipo *cargarListaEquipos (nodoEquipo *equipos){
-    FILE *fp;
-    nodoEquipo *seguidor=NULL;
-    nodoEquipo *anterior=NULL;
-    Equipo lectura;
-    fp=fopen("./BaseArrayGrupo.bin", "r");
-    if (fp){
-        equipos=inicializarNodoEquipo(equipos, "NO");
-        seguidor=equipos;
-        for (int j=0; j<TAM_MAX_GRUPOS; j++){ /// Cargo los equipos de los 8 grupos.
-            for (int i=0; i<TAM_MAX_GRUPO; i++){ /// Cargo los 4 equipos de cada grupo.
-                fread(&lectura, sizeof(Equipo), 1, fp);
-                strcpy(seguidor->equipo.nomEquipo, lectura.nomEquipo);
-                seguidor->siguiente=inicializarNodoEquipo(seguidor->siguiente, "NO");
-                anterior=seguidor;
-                seguidor=seguidor->siguiente;
-            }
-        }
-    }else{
-        puts("Error al abrir base de datos de equipos, proceda a crear una nueva base de datos de equipos:\n");
-        crearNuevaBaseGrupo();
-        cargarListaEquipos(equipos);
-    }
-    anterior->siguiente=NULL;
-    fclose(fp);
-    return equipos;
-}
-
-/// PARA VERIFICACION SOLAMENTE.
-/*
-void verificacionImprimirListaEquipos (nodoEquipo *equipos){
-    nodoEquipo *seguidor;
-    seguidor=equipos;
-    while (seguidor){
-        printf ("Nombre del equipo: %s\n", seguidor->equipo.nomEquipo);
-        seguidor=seguidor->siguiente;
-    }
-}
-*/
-
-/// FIN de codigo para < LEVANTAR > BaseArrayGrupos.bin y volcarlo en lista simple de equipos.
-
-/*----------------------------------------*/
-
-/// INICIO de codigo para vincular equipos en el arreglo de grupos con equipos de la lista simple.
-
-void inicializarArrayGrupoEquipos (Grupo arrayGrupoEquipos[]){
-    char idGrupos[TAM_MAX_GRUPOS]= {'A', 'B', 'C', 'D', 'E', 'F','G', 'H'};
-    for (int i=0; i<TAM_MAX_GRUPOS; i++){
-        arrayGrupoEquipos[i].letra=idGrupos[i];
-        arrayGrupoEquipos[i].equipos=NULL;
-    }
-}
-
-nodoGrupoEquipo *inicializarNodoGrupoEquipo(nodoGrupoEquipo *nuevo){
-    nuevo=malloc(sizeof(nodoGrupoEquipo));
-    nuevo->siguiente=NULL;
-    nuevo->equipo=NULL;
-    return nuevo;
-}
-
-nodoGrupoEquipo *agregarNodoGrupoEquipo(nodoGrupoEquipo *listaGrupoEquipo, nodoGrupoEquipo *nuevo){
-    nodoGrupoEquipo *anterior;
-    nodoGrupoEquipo *seguidor;
-    if (listaGrupoEquipo){
-            seguidor=listaGrupoEquipo;
-        while (seguidor){
-            anterior=seguidor;
-            seguidor=seguidor->siguiente;
-        }
-        anterior->siguiente=nuevo;
-    }else{
-        listaGrupoEquipo=nuevo;
-    }
-    return listaGrupoEquipo;
-}
-
-void vincularAListaArrayGruposEquipos (Grupo arrayGrupoEquipos[], nodoEquipo *listaEquipos){
-    nodoEquipo *seguidorListaEquipos;
-    nodoGrupoEquipo *nuevo;
-    seguidorListaEquipos=listaEquipos;
-    inicializarArrayGrupoEquipos(arrayGrupoEquipos);
-    if (seguidorListaEquipos){
-        for (int i=0; i<TAM_MAX_GRUPOS; i++){
-            for (int j=0; j<(TAM_MAX_GRUPO); j++){
-                nuevo=inicializarNodoGrupoEquipo(nuevo);
-                nuevo->equipo = &(seguidorListaEquipos->equipo);
-                arrayGrupoEquipos[i].equipos=agregarNodoGrupoEquipo(arrayGrupoEquipos[i].equipos, nuevo);
-                seguidorListaEquipos=seguidorListaEquipos->siguiente; /// lista de equipos.
-            }
-        }
-    }
-}
-
-/// FIN de codigo para vincular equipos en el arreglo de grupos con equipos de la lista simple.
-
-/*----------------------------------------*/
-
-/// INICIO de codigo para < LEVANTAR > BaseArrayPartidos.bin (PARTIDOS), para ejecuciones posteriores, cuando la base de datos ya existe.
+///     2.2) INICIO de codigo para < LEVANTAR Y VINCULAR > desde BaseArrayPartidos.bin (PARTIDOS) -
+///     - a GrupoPartido arrayGrupoPartidos[] y vincular el arreglo con la lista simple de equipos.
 
 void inicializarPartido(Partido *nuevo){
     /// Nota: Dentro de la estructura Partido, el valor -1 (int) o NULL representa el estado de variable no asignada aun.
@@ -307,18 +358,16 @@ nodoEquipo *obtenerPunteroANodoEquipo(nodoEquipo *listaEquipos, char nombreBusca
     }
     if (!encontrado){
         puts("Se realizo la busqueda de un equipo que no se encuentra en la lista.\n");
-        system("pause");
     }
     return nodoBuscado;
 }
 
-void traerDesdeBaseArrayPartidos(GrupoPartido arrayGrupoPartidos[], nodoEquipo *listaEquipos) {
+void leerYVincularBaseArrayPartidos(GrupoPartido arrayGrupoPartidos[], nodoEquipo *listaEquipos) {
     FILE *fp=NULL;
     nodoPartido *nuevo=NULL;
-    nodoPartido *anterior=NULL;
     nodoEquipo *aux=NULL;
     partidoArchivo lectura;
-    char idGrupos[TAM_MAX_GRUPOS]= {'A', 'B', 'C', 'D', 'E', 'F','G', 'H'};
+    inicializarArrayGrupoPartidos(arrayGrupoPartidos);
     fp=fopen("./BaseArrayPartidos.bin", "r"); /// Por consigna, solo contiene partidos de fase de grupos, ya que el resto se simula.
     if (fp){
         while (fread(&lectura, sizeof(partidoArchivo),1,fp)){
@@ -329,16 +378,12 @@ void traerDesdeBaseArrayPartidos(GrupoPartido arrayGrupoPartidos[], nodoEquipo *
                 nuevo->partido.equipo1=&aux->equipo;
             }else{
                 puts("Uno de los equipos en la lista de partidos fue mal ingresado. Por favor reiniciar la base de datos de PARTIDOS.");
-                system("pause");
-                crearArrayGrupoPartido(listaEquipos);
             }
             aux=obtenerPunteroANodoEquipo(listaEquipos, lectura.nomEquipo2);
             if (aux){
                 nuevo->partido.equipo2=&aux->equipo;
             }else{
                 puts("Uno de los equipos en la lista de partidos fue mal ingresado. Por favor reiniciar la base de datos de PARTIDOS.");
-                system("pause");
-                crearArrayGrupoPartido(listaEquipos);
             }
             nuevo->partido.fecha=lectura.fecha;
             nuevo->siguiente=NULL;
@@ -374,13 +419,12 @@ void traerDesdeBaseArrayPartidos(GrupoPartido arrayGrupoPartidos[], nodoEquipo *
     }else {
         puts("Base de datos de Partidos no encontrada, reiniciarla...");
         system("pause");
-        ///cargarDefaultBaseGrupoPartido();
-        ///traerDesdeBaseArrayPartidos(arrayGrupoPartidos, listaEquipos);
     }
     fclose(fp);
 }
 
-/// FIN de codigo para < LEVANTAR > BaseArrayPartidos.bin (PARTIDOS), para ejecuciones posteriores, cuando la base de datos ya existe.
+///     2.2) FIN de codigo para < LEVANTAR Y VINCULAR > desde BaseArrayPartidos.bin (PARTIDOS) -
+///     - a GrupoPartido arrayGrupoPartidos[] y vincular el arreglo con la lista simple de equipos.
 
 /*----------------------------------------*/
 

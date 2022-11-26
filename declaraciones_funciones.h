@@ -4,20 +4,44 @@
 #include "declaraciones_variables.h"
 
 /*----------------------------------------*/
-/// LecturaYCargaDeBases.c
-void inicializarEquipo(Equipo *nuevo, char nombre[]);
+/// Declaraciones para LecturaYCargaDeBases.c
+
+/// >>> 1) INICIO de funciones relacionadas a estructura Grupo (equipos).
+
+///     1.1) Funciones para < CREAR > BaseArrayGrupo.bin (EQUIPOS), solo para primera ejecución.
 void crearNuevaBaseGrupo();
-///void traerDesdeBaseArrayGrupo (Grupo arrayGrupo[]);
-void crearArrayGrupoPartido();
+void cargarDefaultBaseGrupo();
+///     1.2) Funciones para < LEVANTAR > BaseArrayGrupos.bin y volcarlo en lista simple de equipos.
+void inicializarEquipo(Equipo *nuevo, char nombre[]);
+nodoEquipo *inicializarNodoEquipo (nodoEquipo *nuevo, char nombre[]);
+nodoEquipo *leerListaEquipos ();
+///     1.3) Funciones para < VINCULAR > equipos en el arreglo de grupos con equipos de la lista simple.
+void inicializarArrayGrupoEquipos (Grupo arrayGrupoEquipos[]);
+nodoGrupoEquipo *inicializarNodoGrupoEquipo(nodoGrupoEquipo *nuevo);
+nodoGrupoEquipo *agregarNodoGrupoEquipo(nodoGrupoEquipo *listaGrupoEquipo, nodoGrupoEquipo *nuevo);
+void vincularAListaArrayGruposEquipos (Grupo arrayGrupoEquipos[], nodoEquipo *listaEquipos);
+
+/// >>> 2) INICIO de funciones relacionadas a estructura GrupoPartido (Partidos).
+
+///     2.1) Funciones para < AGREGAR > a BaseArrayPartidos.bin (PARTIDOS).
+void reiniciarBasePartidos ();
+void cargarDefaultBasePartido();
+int verificarSiEstaEquipo (nodoEquipo *listaEquipos, char nombre[]);
+int verificarGrupo (char grupo);
+void agregarABaseArrayGrupoPartido(nodoEquipo *listaEquipos);
+///     2.2) Funciones para < LEVANTAR Y VINCULAR > desde BaseArrayPartidos.bin (PARTIDOS) a GrupoPartido.
 void inicializarPartido(Partido *nuevo);
+void inicializarArrayGrupoPartidos(GrupoPartido arrayGrupoPartidos[]);
 void insertarNodoPartido (int grupo, GrupoPartido arrayGrupoPartidos[], nodoPartido *insertar);
-void traerDesdeBaseArrayPartidos(GrupoPartido arrayGrupoPartidos[], nodoEquipo *listaEquipos);
 nodoEquipo *obtenerPunteroANodoEquipo(nodoEquipo *listaEquipos, char nombreBuscado[]);
+void leerYVincularBaseArrayPartidos(GrupoPartido arrayGrupoPartidos[], nodoEquipo *listaEquipos);
+
 
 /*----------------------------------------*/
 /// impresionConsola.c
 void imprimirCabeceraMenuPrincipal();
-void imprimirCabeceraMenuPrincipal();
+void imprimirMenuPrincipal();
+void imprimirSubMenuBases();
 void imprimirUnSoloGrupo (nodoGrupoEquipo *listaEquiposGrupo);
 void imprimirArrayGrupo (Grupo arrayGrupo[]);
 void imprimirUnSoloPartido(Partido imprimir, int mostrarResultados);
@@ -29,6 +53,7 @@ void imprimirArrayGrupoPartidos (GrupoPartido arrayGrupoPartidos[]);
 char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos);
 void iniciarMenuPrincipal(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos);
 void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos);
+
 
 /*----------------------------------------*/
 /// SimuladorPartidos.c
@@ -58,5 +83,6 @@ void pasarEquiposAFinal(nodoPartido* listaSemis, nodoPartido** listaFinal);
 void pasarGanadoresAFinal(fase arrayFase[]);
 void jugarFinal (fase arrayFase[]);
 void pasarGanadorYSegundoPuesto (nodoPartido * listaFinal);
+
 
 #endif // DECLARACIONES_FUNCIONES_H_INCLUDED

@@ -13,43 +13,73 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
             switch (input){
             case '1': /// CARGAR DEFAULT EQUIPOS
                 flag='n';
+                printf("\n Seguro que cargar los valores por defecto a la base de datos de Equipos? Eliminara los datos actuales. Reiniciara simulacion. S/N\n");
+                fflush(stdin);
+                scanf("%c", &flag);
+                flag=tolower(flag);
+                if (flag=='s'){
+                    cargarDefaultBaseGrupo();
+                    listaEquipos=leerListaEquipos();
+                    inicializarArrayGrupoEquipos(arrayEquiposGrupos);
+                    vincularAListaArrayGruposEquipos(arrayEquiposGrupos, listaEquipos);
+                    leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
+                    imprimirArrayGrupo(arrayEquiposGrupos);
+                    system("Pause");
+                }
+                flag='n';
             break;
             case '2': /// CARGAR DEFAULT PARTIDOS
+                flag='n';
+                printf("\n Seguro que cargar los valores por defecto a la base de datos de Partidos? Eliminara los datos actuales. Reiniciara simulacion. S/N\n");
+                fflush(stdin);
+                scanf("%c", &flag);
+                flag=tolower(flag);
+                if (flag=='s'){
+                    cargarDefaultBasePartido();
+                    leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
+                    puts("Base de Partidos cargada con valores por defecto.\n");
+                    imprimirArrayGrupoPartidos(arrayPartidosGrupos);
+                    system("Pause");
+                }
                 flag='n';
             break;
             case '3': /// 3) Reiniciar bases de datos de EQUIPOS GRUPOS.
                 flag='n';
-                printf("\n Seguro que desea reiniciar la base de datos de EQUIPOS? Debera ingresar todos los equipos nuevamente. S/N\n");
+                printf("\n Seguro que desea reiniciar la base de datos de EQUIPOS? Debera ingresar todos los equipos nuevamente. Reiniciara simulacion. S/N\n");
                 fflush(stdin);
                 scanf("%c", &flag);
                 flag=tolower(flag);
                 if (flag=='s'){
                     crearNuevaBaseGrupo(arrayEquiposGrupos);
-                    cargarListaEquipos(listaEquipos);
-                    vincularAListaArrayGruposEquipos(arrayEquiposGrupos,listaEquipos);
+                    listaEquipos=leerListaEquipos();
+                    inicializarArrayGrupoEquipos(arrayEquiposGrupos);
+                    vincularAListaArrayGruposEquipos(arrayEquiposGrupos, listaEquipos);
                     imprimirArrayGrupo(arrayEquiposGrupos);
                     system("Pause");
                 }
                 flag='n';
             break;
             case '4': /// 4) Reiniciar bases de datos de PARTIDOS GRUPOS.
-
+                reiniciarBasePartidos();
+                vincularAListaArrayGruposEquipos(arrayEquiposGrupos, listaEquipos);
+                puts("La base de datos de partidos fue reiniciada, necesita cargar todos los partidos nuevamente. Reiniciara simulacion.\n");
+                system("Pause");
             break;
             case '5': /// 5) Agregar a bases de datos de PARTIDOS GRUPOS.
                 flag='n';
-                printf("\n Agregar partidos? S/N\n");
+                printf("\n Agregar partidos? Reiniciara simulacion. S/N\n");
                 fflush(stdin);
                 scanf("%c", &flag);
                 flag=tolower(flag);
-                cargarListaEquipos(listaEquipos);
                 if (flag=='s'){
-                        crearArrayGrupoPartido(listaEquipos);
+                        listaEquipos=leerListaEquipos();
+                        agregarABaseArrayGrupoPartido(listaEquipos);
+                        leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
+                        system("@cls||clear");
+                        puts("La base de datos de Partidos contiene ahora lo siguiente:\n");
+                        imprimirArrayGrupoPartidos(arrayPartidosGrupos);
+                        system("Pause");
                 }
-                traerDesdeBaseArrayPartidos(arrayPartidosGrupos,listaEquipos);
-                system("@cls||clear");
-                puts("La base de datos de Partidos contiene ahora lo siguiente:\n");
-                imprimirArrayGrupoPartidos(arrayPartidosGrupos);
-                system("Pause");
                 flag='n';
             break;
             case '6': /// 6) VOLVER AL MENU PRINCIPAL
@@ -60,7 +90,6 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
                 puts("\nOpcion ingresada no valida.\n");
             }
     }while (flag!='s');
-
 }
 
 char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos){ ///nodoEquipo *listaEquipos
@@ -88,7 +117,11 @@ char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFa
         /// ----
     break;
     case '5': /// 5) Ingresar al submenu de bases de datos.
-        subMenuBasesDeDatos(arrayPartidosGrupos, arrayEquiposGrupos, arrayFase, listaEquipos);
+        subMenuBasesDeDatos(arrayPartidosGrupos,arrayFase,arrayEquiposGrupos,listaEquipos); /// MODIFICO LAS BASES DE DATOS.
+        /// LEVANTO LAS MODIFICACIONES HECHAS.
+        listaEquipos=leerListaEquipos();
+        vincularAListaArrayGruposEquipos(arrayEquiposGrupos, listaEquipos);
+        leerYVincularBaseArrayPartidos(arrayPartidosGrupos,listaEquipos);
     break;
     case '6': /// 6) Salir.
             flag='n';

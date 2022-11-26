@@ -3,18 +3,25 @@
 
 int main()
 {
-    nodoEquipo *listaEquipos;
-    Grupo arrayGrupoEquipos[TAM_MAX_GRUPOS];
-    GrupoPartido arrayGrupoPartidos[TAM_MAX_GRUPOS];
+    nodoEquipo *listaEquipos=NULL;
+    Grupo arrayEquiposGrupos[TAM_MAX_GRUPOS];
+    GrupoPartido arrayPartidosGrupos[TAM_MAX_GRUPOS];
     fase arrayFase[4];
-    listaEquipos=cargarListaEquipos(listaEquipos);
-    vincularAListaArrayGruposEquipos(arrayGrupoEquipos,listaEquipos);
-    inicializarArrayGrupoPartidos(arrayGrupoPartidos);
-    traerDesdeBaseArrayPartidos(arrayGrupoPartidos, listaEquipos);
-    ///verificacionImprimirListaEquipos(listaEquipos); /// SOLO PARA DEBUG
+    puts("Cargando bases de datos...\n");
+    listaEquipos=leerListaEquipos();
+    inicializarArrayGrupoEquipos(arrayEquiposGrupos);
+    vincularAListaArrayGruposEquipos(arrayEquiposGrupos,listaEquipos);
+    leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
+    system("pause");
+
+    /// SOLO PARA DEBUG
+    /*
+    ///verificacionImprimirListaEquipos(listaEquipos);
     ///system("pause");
     /// traerDesdeBaseArrayPartidos(arrayGrupoPartidos);
-    iniciarMenuPrincipal(arrayGrupoPartidos, arrayFase, arrayGrupoEquipos, listaEquipos);
+    */
+
+    iniciarMenuPrincipal(arrayPartidosGrupos, arrayFase, arrayEquiposGrupos, listaEquipos);
     system("pause");
     system("cls");
     return 0;

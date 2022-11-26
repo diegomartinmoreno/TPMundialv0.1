@@ -60,7 +60,7 @@ typedef struct
     int penales2; /// 1 si hay penales (playoffs), 0 si no hay penales (grupos).
 } Partido;
 
-typedef struct
+typedef struct nodoPartido
 {
     Partido partido;
     struct nodoPartido* siguiente;
@@ -78,19 +78,19 @@ typedef struct
     nodoPartido* partidos;
 } GrupoPartido;
 
-typedef struct
+typedef struct nodoEquipo
 {
     Equipo equipo;
     struct nodoEquipo* siguiente;
 } nodoEquipo;
 
-typedef struct
+typedef struct Grupo
 {
     char letra; ///'A','B'....
     struct nodoGrupoEquipo* equipos;
 } Grupo;
 
-typedef struct
+typedef struct nodoGrupoEquipo
 {
     Equipo* equipo;
     struct nodoGrupoEquipo* siguiente;

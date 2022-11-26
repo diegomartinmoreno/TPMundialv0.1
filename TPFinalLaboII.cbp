@@ -34,9 +34,6 @@
 		<Unit filename="LecturaYCargaDeBases.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="SimuladorPartidos.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="declaraciones_funciones.h" />
 		<Unit filename="declaraciones_variables.h" />
 		<Unit filename="impresionConsola.c">
