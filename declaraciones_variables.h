@@ -13,10 +13,12 @@
 
 /*----------------------------------------*/
 
-///   ExplicaciÃ³n de variables:
+///   Explicación de variables:
 /// GrupoPartido arrayPartidosGrupos[] = Contiene un arreglo de listas de los PARTIDOS de fase de grupos.
 /// fase arrayFase[] = Contiene un arreglo de listas con los PARTIDOS de cada fase PlayOffs. 0=Octavos, 4=Final.
-/// Grupo arrayEquiposGrupos[] = Contiene un arreglo de listas de los EQUIPOS de cada grupo y sus estadÃ­sticas.
+/// Grupo arrayEquiposGrupos[] = Contiene un arreglo de listas de los EQUIPOS de cada grupo y sus estadísticas.
+/// Cualquier estructura que contenga un puntero nodoEquipo, apuntara siempre a la misma direccion de memoria para cada respectivo equipo.
+/// Cambios en un equipo en una estructura, afetará a todas las demás que incluyan a ese equipo.
 
 /*----------------------------------------*/
 
@@ -43,7 +45,7 @@ typedef struct
     int ga;   /// goles en contra
     int win;  /// partidos ganados
     int loss; /// partidos perdidos
-    int pts; /// puntos totales
+    int pts; /// puntos totales.
 } Equipo;
 
 typedef struct
