@@ -38,54 +38,6 @@ void crearNuevaBaseGrupo(){ /// Crear base de datos de grupos A, B ... H. ¡SOLO 
     fclose(fp);
 }
 
-
-//FUNCION DE ABAJO NO ERA NECESARIA, SEGUN CONSIGNA TODOS LOS PARTIDOS SE SIMULAN.
-/*
-void persistirBaseGrupo(Grupo arrayGrupo[]){ /// Persiste la estructura de grupos de equipos entre distintas ejecuciones del programa.
-    FILE *fp=NULL;
-    fp=fopen("./BaseArrayGrupo.bin", "w");
-    nodoEquipo *seguidor=NULL;
-    nodoEquipo *anterior=NULL;
-    for (int i=0; i<TAM_MAX_GRUPOS; i++){
-        fwrite(arrayGrupo[i].letra, sizeof(char), 1, fp);
-        seguidor=arrayGrupo[i].equipos;
-        while (seguidor){
-            fwrite(&seguidor->equipo, sizeof(Equipo), 1, fp);
-            seguidor=seguidor->siguiente;
-        }
-    }
-}
-
-
-void traerDesdeBaseArrayGrupo (Grupo arrayGrupo[]){
-    FILE *fp=NULL;
-    nodoEquipo *seguidor=NULL;
-    nodoEquipo *anterior=NULL;
-    Grupo auxiliarGrupo;
-    char letraGrupoAux;
-    fp=fopen("./BaseArrayGrupo.bin", "r");
-    if (fp){
-        for (int i=0; i<TAM_MAX_GRUPOS; i++){
-            arrayGrupo[i].equipos=malloc(sizeof(nodoEquipo));
-            seguidor=arrayGrupo[i].equipos;
-            fread(&letraGrupoAux, sizeof(char), 1, fp);
-            arrayGrupo[i].letra=letraGrupoAux;
-            for (int j=0; j<TAM_MAX_GRUPO; j++){
-                fread(&seguidor->equipo, sizeof(Equipo), 1, fp);
-                anterior=seguidor;
-                seguidor->siguiente=malloc(sizeof(nodoEquipo));
-                seguidor=seguidor->siguiente;
-            }
-            free (anterior->siguiente);
-            anterior->siguiente=NULL;
-        }
-    }else{
-        puts("No se pudo acceder a la base de datos de grupos de EQUIPOS.");
-    }
-    fclose(fp);
-}
-*/
-
 /// FIN de codigo para < CREAR > BaseArrayGrupo.bin (EQUIPOS), solo para primera ejecución.
 
 /*----------------------------------------*/
@@ -118,7 +70,7 @@ int verificarGrupo (char grupo){
 
 void crearArrayGrupoPartido(nodoEquipo *listaEquipos){ /// Crear base de datos de partidos de cada grupo. ¡SOLO PARA PRIMERA EJECUCION!
     FILE *fp=NULL;
-    fp=fopen("./BaseArrayPartidos.bin", "w+");
+    fp=fopen("./BaseArrayPartidos.bin", "a+");
     partidoArchivo guardar;
     char flag='n';
     char confirmar='n';

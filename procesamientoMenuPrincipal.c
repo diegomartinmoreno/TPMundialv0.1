@@ -33,8 +33,11 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
                 flag='n';
             break;
             case '4': /// 4) Reiniciar bases de datos de PARTIDOS GRUPOS.
+
+            break;
+            case '5': /// 5) Agregar a bases de datos de PARTIDOS GRUPOS.
                 flag='n';
-                printf("\n Seguro que desea reiniciar la base de datos de PARTIDOS? Debera ingresar todos los partidos nuevamente. S/N\n");
+                printf("\n Agregar partidos? S/N\n");
                 fflush(stdin);
                 scanf("%c", &flag);
                 flag=tolower(flag);
@@ -49,12 +52,9 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
                 system("Pause");
                 flag='n';
             break;
-            case '5': /// CARGAR DEFAULT PARTIDOS
-                flag='n';
-                printf("\n Volver al menu principal? S/N\n");
-                fflush(stdin);
-                scanf("%c", &flag);
-                flag=tolower(flag);
+            case '6': /// 6) VOLVER AL MENU PRINCIPAL
+                flag='s';
+            break;
             break;
             default:
                 puts("\nOpcion ingresada no valida.\n");

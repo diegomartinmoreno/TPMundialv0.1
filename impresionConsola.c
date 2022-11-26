@@ -32,8 +32,9 @@ void imprimirSubMenuBases(){
     printf("\n |-| 1) Cargar valores por defecto para base de EQUIPOS, fase de grupos.");
     printf("\n |-| 2) Cargar valores por defecto para base de PARTIDOS, fase de grupos.");
     printf("\n |-| 3) Reiniciar base de datos de EQUIPOS, fase de grupos. //FUNCIONA");
-    printf("\n |-| 4) Reiniciar base de datos de PARTIDOS, fase de grupos. //FUNCIONA");
-    printf("\n |-| 5) Volver al menu principal.\n");
+    printf("\n |-| 4) Reiniciar base de datos de PARTIDOS, fase de grupos.");
+    printf("\n |-| 5) Agregar partido de fase de grupos. //FUNCIONA");
+    printf("\n |-| 6) Volver al menu principal.\n");
 }
 
 /// FIN DE IMPRESIONES DE MENU PRINCIPAL.
