@@ -279,6 +279,28 @@ nodoPartido* crearNodoPartido(Equipo* uno, Equipo* dos)
 
 ///SIMULACION COMPLETA DE PLAYOFFS
 
+
+void simularPlayoffs(GrupoPartido arrayPartidosGrupos [], nodoEquipo * listaEquipos) /// SIMULACION COMPLETA DE PLAYOFFS
+{
+    int faseDeGruposTerminada = ChequearFaseDeGrupo(listaEquipos);
+    if(faseDeGruposTerminada == 0)
+    {
+        printf("Todavia no se termino de jugar la fase de grupos.");
+    }
+    else
+    {
+        pasarGanadoresAPlayoffOcatvos(arrayEquiposGrupos, arrayFase);
+        pasarGanadoresACuartos(arrayFase);
+        pasarGanadoresASemis(arrayFase);
+        pasarGanadoresATercerPuesto(arrayFase);
+        pasarGanadoresAFinal(arrayFase);
+        jugarFinal(arrayFase);
+
+    }
+
+}
+
+
 void insertarPartidoOctavos(nodoPartido** listaPartidos, nodoPartido* partidin)  ///octavos
 {
 
@@ -327,7 +349,7 @@ void pasarGanadoresAPlayoffOcatvos(Grupo arrayEquiposGrupos[], fase arrayFase[])
 
 /// CUARTOS
 Equipo* vencedor(Partido match)///RETORNA EL EQUIPO GANADOR DEL PARTIDO
-{\
+{
     if(match.golesEq1 > match.golesEq2)
     {
         return match.equipo1;
@@ -452,7 +474,7 @@ void pasarGanadoresASemis(fase arrayFase[])
 }
 
 
-///TERCER POSTO
+///TERCER PUESTO
 
 Equipo* perdedor(Partido match)///RETORNA EL EQUIPO PERDEDOR DEL PARTIDO
 {
