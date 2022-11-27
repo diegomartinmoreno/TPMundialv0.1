@@ -8,7 +8,7 @@
 
 /// >>> 1) INICIO de funciones relacionadas a estructura Grupo (equipos).
 
-///     1.1) Funciones para < CREAR > BaseArrayGrupo.bin (EQUIPOS), solo para primera ejecución.
+///     1.1) Funciones para < CREAR O CARGAR DEFAULT > BaseArrayGrupo.bin (EQUIPOS), solo para primera ejecución.
 void crearNuevaBaseGrupo();
 void cargarDefaultBaseGrupo();
 ///     1.2) Funciones para < LEVANTAR > BaseArrayGrupos.bin y volcarlo en lista simple de equipos.
@@ -23,7 +23,7 @@ void vincularAListaArrayGruposEquipos (Grupo arrayGrupoEquipos[], nodoEquipo *li
 
 /// >>> 2) INICIO de funciones relacionadas a estructura GrupoPartido (Partidos).
 
-///     2.1) Funciones para < AGREGAR > a BaseArrayPartidos.bin (PARTIDOS).
+///     2.1) Funciones para < AGREGAR, REINICIAR O CARGAR DEFAULT > a BaseArrayPartidos.bin (PARTIDOS).
 void reiniciarBasePartidos ();
 void cargarDefaultBasePartido();
 int verificarSiEstaEquipo (nodoEquipo *listaEquipos, char nombre[]);
@@ -59,13 +59,13 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
 /// SimuladorPartidos.c
 
 ///AXEL
-void simularPartido (Partido partidoAsimular);
-void simularPartidoArreglado (Partido  partidoAsimular, char equipoASimular[], int clasifica); /// para los casos en los que el usuario quiera que un equipo clasifique o no .
-void simularFaseDeGrupos (GrupoPartido arrayPartidosGrupos[]);  ///simula fase de grupos aleatoriamente
-void simulaGrupo (nodoPartido * partidosGrupo);  ///funcion primaria. Simula grupo aleatoriamente
-void simulaGrupoArreglado (nodoPartido * partidosGrupo, char equipoASimular[], int clasifica); ///simula un grupo con resultado arreglado
-int ChequearFaseDeGrupo (nodoEquipo * listaEquipos); ///chequea que todos los equipos hayan terminado la fase de grupos
-
+void simularPartido (Partido *partidoAsimular);
+void simularPartidoArreglado (Partido  *partidoAsimular, char equipoASimular1[], char equipoASimular2[], int clasifica1, int clasifica2); /// para los casos en los que el usuario quiera que un equipo clasifique o no .
+void simularFaseDeGrupos (GrupoPartido arrayPartidosGrupos[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos);  ///simula fase de grupos aleatoriamente
+void simulaGrupo (nodoPartido *partidosGrupo);  ///funcion primaria. Simula grupo aleatoriamente
+void simulaGrupoArreglado (nodoPartido *partidosGrupo, char equipoASimular1[], char equipoASimular2[], int clasifica1, int clasifica2); ///simula un grupo con resultado arreglado
+int ChequearFaseDeGrupo (nodoEquipo *listaEquipos); ///chequea que todos los equipos hayan terminado la fase de grupos
+verificarSiEstaEquipoEnGrupo (nodoGrupoEquipo *listaEquiposGrupo, char equipoBuscado[]);
 
 ///mati
 Equipo* retornarPrimeroDelGrupo(nodoGrupoEquipo* listaEquipo);
@@ -83,6 +83,5 @@ void pasarEquiposAFinal(nodoPartido* listaSemis, nodoPartido** listaFinal);
 void pasarGanadoresAFinal(fase arrayFase[]);
 void jugarFinal (fase arrayFase[]);
 void pasarGanadorYSegundoPuesto (nodoPartido * listaFinal);
-
 
 #endif // DECLARACIONES_FUNCIONES_H_INCLUDED

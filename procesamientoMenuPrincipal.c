@@ -104,17 +104,11 @@ char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFa
         system("Pause");
     break;
     case '3': /// 3) Mostrar Partidos Playoffs.
-        /// mostrarPartidosPlayoffs (arrayFase);
+        simularPlayoffs(arrayPartidosGrupos, listaEquipos, arrayEquiposGrupos, arrayFase);
+        imprimirPlayoffs(arrayFase);
     break;
     case '4': /// 4) Simular Partidos.
-        /// FALTA ASIGNAR QUIEN HACE:
-        /// FUNCION (S) simularFaseGrupo (arrayPartidosGrupos, arrayEquiposGrupos) /// DEBE PERMITIR SELECCIONAR UN EQUIPO QUE CLASIFIQUE SIN AZAR.
-        /// FUNCION simularUnPartido (Partido *partidoASimular); /// DEBE PODER REUTILIZARSE PARA PLAYOFFS Y GRUPOS
-        /// FUNCION simular un partido o un conjunto de partidos (grupo o fase) o todo el mundial.
-        /// FUNCION que compruebe si se jugaron todos los partidos de fase de grupos. (en arrayEquiposGrupos, todos los MP-matchs played deben ser=3);
-        /// FUNCION que tome los primeros dos ganadores de cada grupo del arrayEquiposGrupos y los inserte en arrayFase[0];
-        /// FUNCION que simule todos los playoffs.
-        /// ----
+        simularFaseDeGrupos(arrayPartidosGrupos, arrayEquiposGrupos, listaEquipos);
     break;
     case '5': /// 5) Ingresar al submenu de bases de datos.
         subMenuBasesDeDatos(arrayPartidosGrupos,arrayFase,arrayEquiposGrupos,listaEquipos); /// MODIFICO LAS BASES DE DATOS.
