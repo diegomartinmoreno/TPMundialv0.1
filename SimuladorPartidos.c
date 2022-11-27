@@ -1,6 +1,13 @@
 #include "declaraciones_variables.h"
 #include "declaraciones_funciones.h"
 
+
+void simularMundialFuncionPrincipal (GrupoPartido arrayPartidosGrupos[], fase arrayFase[], nodoEquipo * listaEquipos, Grupo arrayEquiposGrupos[])
+{
+    simularFaseDeGrupos(arrayPartidosGrupos);   ///dentro de la funcion tiene la opcion de elegir un equipo para simular
+    simularPlayoffs(arrayPartidosGrupos, listaEquipos, arrayEquiposGrupos, arrayFase); /// tiene toda la simulacion de playoffs
+}
+
 void simularPartido (Partido partidoAsimular)
 {
 
@@ -92,11 +99,10 @@ void simularPartidoArreglado (Partido  partidoAsimular, char equipoASimular[], i
     {
         if (strcmpi(partidoAsimular.equipo2->nomEquipo, equipoASimular) == 0)  ///ganara el segundo
         {
-          partidoAsimular.golesEq1 = rand2; ///0
-          partidoAsimular.golesEq2 = rand1;  ///1 a 5
+            partidoAsimular.golesEq1 = rand2; ///0
+            partidoAsimular.golesEq2 = rand1;  ///1 a 5
         }
     }
-
 }
 
 
@@ -106,6 +112,7 @@ void simularFaseDeGrupos (GrupoPartido arrayPartidosGrupos[])  ///simula fase de
     char continuar;
     int clasifica;
     int i ;
+
 
     printf("Desea elegir algun equipo? (s/n)");  ///pregunto al usuario si quiere elegir algun equipo para simular
     fflush(stdin);
@@ -120,19 +127,18 @@ void simularFaseDeGrupos (GrupoPartido arrayPartidosGrupos[])  ///simula fase de
         printf("|2| NO CLASIFICA\n");
         scanf("%i", &clasifica);
 
-            for (i = 0 ; i < TAM_MAX_GRUPOS ; i++)  /// aca agarr los grupos
-            {
-                simulaGrupoArreglado(arrayPartidosGrupos->partidos, equipoASimular, clasifica);  ///simulo los grupos
-            }
+        for (i = 0 ; i < TAM_MAX_GRUPOS ; i++)  /// aca agarr los grupos
+        {
+            simulaGrupoArreglado(arrayPartidosGrupos[i].partidos, equipoASimular, clasifica);  ///simulo los grupos
+        }
 
     }
     else  ///si no quiero que este arreglado, lo simulo aleatoriamente
     {
         for (i = 0 ; i < TAM_MAX_GRUPOS ; i++)
         {
-            simulaGrupo (arrayPartidosGrupos->partidos);
+            simulaGrupo (arrayPartidosGrupos[i].partidos);
         }
-
     }
 }
 
@@ -377,31 +383,31 @@ void pasarEquiposACuartos(nodoPartido* lista, nodoPartido** listaCuartos)///la "
     Equipo* ganador1 = vencedor(lista->partido);///PARTIDO 1A VS 2B
     lista = lista->siguiente;
 
-     simularPartido(lista->partido);
+    simularPartido(lista->partido);
     Equipo* ganador2 = vencedor(lista->partido);///PARTIDO 1B VS 2A
     lista = lista->siguiente;
 
-     simularPartido(lista->partido);
+    simularPartido(lista->partido);
     Equipo* ganador3 = vencedor(lista->partido);///PARTIDO 1C VS 2D
     lista = lista->siguiente;
 
-     simularPartido(lista->partido);
+    simularPartido(lista->partido);
     Equipo* ganador4 = vencedor(lista->partido);///PARTIDO 1D VS 2C
     lista = lista->siguiente;
 
-     simularPartido(lista->partido);
+    simularPartido(lista->partido);
     Equipo* ganador5 = vencedor(lista->partido);///PARTIDO 1E VS 2F
     lista = lista->siguiente;
 
-     simularPartido(lista->partido);
+    simularPartido(lista->partido);
     Equipo* ganador6 = vencedor(lista->partido);///PARTIDO 1F VS 2E
     lista = lista->siguiente;
 
-     simularPartido(lista->partido);
+    simularPartido(lista->partido);
     Equipo* ganador7 = vencedor(lista->partido);///PARTIDO 1G VS 2H
     lista = lista->siguiente;
 
-     simularPartido(lista->partido);
+    simularPartido(lista->partido);
     Equipo* ganador8 = vencedor(lista->partido);///PARTIDO 1H VS 2G
 
 
@@ -439,19 +445,19 @@ void pasarGanadoresACuartos(fase arrayFase[])
 
 void pasarEquiposASemis(nodoPartido* listaCuartos, nodoPartido** listaSemis)
 {
-     simularPartido(listaCuartos->partido);
+    simularPartido(listaCuartos->partido);
     Equipo* semi1 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador1 vs ganador3
     listaCuartos = listaCuartos->siguiente;
 
-     simularPartido(listaCuartos->partido);
+    simularPartido(listaCuartos->partido);
     Equipo* semi2 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador5 vs ganador7
     listaCuartos = listaCuartos->siguiente;
 
-     simularPartido(listaCuartos->partido);
+    simularPartido(listaCuartos->partido);
     Equipo* semi3 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador2 vs ganador4
     listaCuartos = listaCuartos->siguiente;
 
-     simularPartido(listaCuartos->partido);
+    simularPartido(listaCuartos->partido);
     Equipo* semi4 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador6 vs ganador8
     listaCuartos = listaCuartos->siguiente;
 
@@ -501,7 +507,7 @@ Equipo* perdedor(Partido match)///RETORNA EL EQUIPO PERDEDOR DEL PARTIDO
 
 void pasarEquiposATercerPuesto(nodoPartido* listaSemis, nodoPartido** listaTercerPuesto)
 {
-     simularPartido(listaSemis->partido);
+    simularPartido(listaSemis->partido);
     Equipo* derrotado1 = perdedor(listaSemis->partido);
     listaSemis = listaSemis->siguiente;
 
