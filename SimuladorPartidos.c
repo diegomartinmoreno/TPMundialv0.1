@@ -17,10 +17,10 @@ void simularPartido (Partido *partidoAsimular)
     srand(intSeed);
     int rand1 = (rand()%5);
 
-    Sleep(15); /// milisegundos
-    seed=clock();
-    intSeed= (int)seed;
-    srand(intSeed);
+    //Sleep(15); /// milisegundos
+    //seed=clock();
+    //intSeed= (int)seed;
+    //srand(intSeed);
     int rand2 = (rand()%5);
 
     Sleep(20); /// milisegundos
@@ -513,7 +513,6 @@ void pasarGanadoresAPlayoffOcatvos(Grupo arrayEquiposGrupos[], fase arrayFase[])
 
         Equipo* primeroSegundoGrupo = retornarPrimeroDelGrupo(arrayEquiposGrupos[i].equipos);//Clasificados del grupo siguiente, "B" en el ejemplo.
         Equipo* segundoSegundoGrupo = retornarSegundoDelGrupo(arrayEquiposGrupos[i].equipos, primeroSegundoGrupo);
-
         nodoPartido* uno = crearNodoPartido(primeroPrimerGrupo, segundoSegundoGrupo); ///LOS PARTIDOS VIENEN SIN LA FECHA CARGADA
         insertarPartidoOctavos(&(arrayFase[0].partidos), uno);
         nodoPartido* dos = crearNodoPartido(segundoPrimerGrupo, primeroSegundoGrupo); ///LOS PARTIDOS VIENEN SIN LA FECHA CARGADA
@@ -549,38 +548,44 @@ Equipo* vencedor(Partido match)///RETORNA EL EQUIPO GANADOR DEL PARTIDO
 
 void pasarEquiposACuartos(nodoPartido* lista, nodoPartido** listaCuartos)///la "lista" es de octavos
 {
-
+    lista->partido.fecha=312;
     simularPartido(&lista->partido);
     Equipo* ganador1 = vencedor(lista->partido);///PARTIDO 1A VS 2B
     lista = lista->siguiente;
 
+    lista->partido.fecha=312;
     simularPartido(&lista->partido);
     Equipo* ganador2 = vencedor(lista->partido);///PARTIDO 1B VS 2A
     lista = lista->siguiente;
 
+    lista->partido.fecha=412;
     simularPartido(&lista->partido);
     Equipo* ganador3 = vencedor(lista->partido);///PARTIDO 1C VS 2D
     lista = lista->siguiente;
 
+    lista->partido.fecha=412;
     simularPartido(&lista->partido);
     Equipo* ganador4 = vencedor(lista->partido);///PARTIDO 1D VS 2C
     lista = lista->siguiente;
 
+    lista->partido.fecha=512;
     simularPartido(&lista->partido);
     Equipo* ganador5 = vencedor(lista->partido);///PARTIDO 1E VS 2F
     lista = lista->siguiente;
 
+    lista->partido.fecha=512;
     simularPartido(&lista->partido);
     Equipo* ganador6 = vencedor(lista->partido);///PARTIDO 1F VS 2E
     lista = lista->siguiente;
 
+    lista->partido.fecha=612;
     simularPartido(&lista->partido);
     Equipo* ganador7 = vencedor(lista->partido);///PARTIDO 1G VS 2H
     lista = lista->siguiente;
 
+    lista->partido.fecha=612;
     simularPartido(&lista->partido);
     Equipo* ganador8 = vencedor(lista->partido);///PARTIDO 1H VS 2G
-
 
 
     nodoPartido* match;
@@ -615,18 +620,22 @@ void pasarGanadoresACuartos(fase arrayFase[])
 
 void pasarEquiposASemis(nodoPartido* listaCuartos, nodoPartido** listaSemis)
 {
+    listaCuartos->partido.fecha=912;
     simularPartido(&listaCuartos->partido);
-    Equipo* semi1 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador1 vs ganador3
+    Equipo* semi1 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador1 vs ganador3¿
     listaCuartos = listaCuartos->siguiente;
 
+    listaCuartos->partido.fecha=912;
     simularPartido(&listaCuartos->partido);
     Equipo* semi2 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador5 vs ganador7
     listaCuartos = listaCuartos->siguiente;
 
+    listaCuartos->partido.fecha=1012;
     simularPartido(&listaCuartos->partido);
     Equipo* semi3 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador2 vs ganador4
     listaCuartos = listaCuartos->siguiente;
 
+    listaCuartos->partido.fecha=1012;
     simularPartido(&listaCuartos->partido);
     Equipo* semi4 = vencedor(listaCuartos->partido);///PARTIDO entre el ganador6 vs ganador8
     listaCuartos = listaCuartos->siguiente;
@@ -673,9 +682,15 @@ Equipo* perdedor(Partido match)///RETORNA EL EQUIPO PERDEDOR DEL PARTIDO
 
 void pasarEquiposATercerPuesto(nodoPartido* listaSemis, nodoPartido** listaTercerPuesto)
 {
+
+    listaSemis->partido.fecha=1312;
+    simularPartido(&listaSemis->partido);
     Equipo* derrotado1 = perdedor(listaSemis->partido);
 
     listaSemis = listaSemis->siguiente;
+
+    listaSemis->partido.fecha=1412;
+    simularPartido(&listaSemis->partido);
 
     Equipo* derrotado2 = perdedor(listaSemis->partido);
 
@@ -692,12 +707,26 @@ void pasarGanadoresATercerPuesto(fase arrayFase[])
 
 ///FINAL
 
-void pasarEquiposAFinal(nodoPartido* listaSemis, nodoPartido** listaFinal)
+void pasarEquiposAFinal(nodoPartido* listaSemis, nodoPartido** listaTercerPuesto,  nodoPartido** listaFinal)
 {
+    ///SEMIFINALES
     Equipo* finalista1 = vencedor(listaSemis->partido);
+    Equipo* eq1TercerPuesto= perdedor(listaSemis->partido);
+
     listaSemis = listaSemis->siguiente;
 
     Equipo* finalista2 = vencedor(listaSemis->partido);
+    Equipo* eq2TercerPuesto= perdedor(listaSemis->partido);
+
+    /// TERCER PUESTO
+
+    *listaTercerPuesto=crearNodoPartido(eq2TercerPuesto,eq1TercerPuesto);
+    nodoPartido *auxTercerPuesto=*listaTercerPuesto;
+    auxTercerPuesto->partido.fecha=1712;
+    simularPartido(&auxTercerPuesto->partido);
+
+
+    /// FINALES
 
     nodoPartido* match = crearNodoPartido(finalista1, finalista2);
 
@@ -706,8 +735,7 @@ void pasarEquiposAFinal(nodoPartido* listaSemis, nodoPartido** listaFinal)
 
 void pasarGanadoresAFinal(fase arrayFase[])
 {
-
-    pasarEquiposAFinal(arrayFase[2].partidos, &(arrayFase[4].partidos));
+    pasarEquiposAFinal(arrayFase[2].partidos, &(arrayFase[3].partidos), &(arrayFase[4].partidos));
 }
 
 
@@ -718,6 +746,7 @@ void jugarFinal (fase arrayFase[])
 
 void pasarGanadorYSegundoPuesto (nodoPartido * listaFinal)
 {
+    listaFinal->partido.fecha=1812;
     simularPartido(&listaFinal->partido);
     Equipo * Campeon = vencedor(listaFinal->partido);
     Equipo * subCampeon = perdedor(listaFinal->partido);

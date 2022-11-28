@@ -36,6 +36,9 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
                 flag=tolower(flag);
                 if (flag=='s'){
                     cargarDefaultBasePartido();
+                    listaEquipos=leerListaEquipos();
+                    inicializarArrayGrupoEquipos(arrayEquiposGrupos);
+                    vincularAListaArrayGruposEquipos(arrayEquiposGrupos,listaEquipos);
                     leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
                     puts("Base de Partidos cargada con valores por defecto.\n");
                     imprimirArrayGrupoPartidos(arrayPartidosGrupos);
@@ -53,7 +56,8 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
                     crearNuevaBaseGrupo(arrayEquiposGrupos);
                     listaEquipos=leerListaEquipos();
                     inicializarArrayGrupoEquipos(arrayEquiposGrupos);
-                    vincularAListaArrayGruposEquipos(arrayEquiposGrupos, listaEquipos);
+                    vincularAListaArrayGruposEquipos(arrayEquiposGrupos,listaEquipos);
+                    leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
                     imprimirArrayGrupo(arrayEquiposGrupos);
                     system("Pause");
                 }
@@ -61,7 +65,10 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
             break;
             case '4': /// 4) Reiniciar bases de datos de PARTIDOS GRUPOS.
                 reiniciarBasePartidos();
-                vincularAListaArrayGruposEquipos(arrayEquiposGrupos, listaEquipos);
+                listaEquipos=leerListaEquipos();
+                inicializarArrayGrupoEquipos(arrayEquiposGrupos);
+                vincularAListaArrayGruposEquipos(arrayEquiposGrupos,listaEquipos);
+                leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
                 puts("La base de datos de partidos fue reiniciada, necesita cargar todos los partidos nuevamente. Reiniciara simulacion.\n");
                 system("Pause");
             break;
@@ -73,8 +80,17 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
                 flag=tolower(flag);
                 if (flag=='s'){
                         listaEquipos=leerListaEquipos();
-                        agregarABaseArrayGrupoPartido(listaEquipos);
+                        inicializarArrayGrupoEquipos(arrayEquiposGrupos);
+                        vincularAListaArrayGruposEquipos(arrayEquiposGrupos,listaEquipos);
                         leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
+
+                        agregarABaseArrayGrupoPartido(listaEquipos);
+
+                        listaEquipos=leerListaEquipos();
+                        inicializarArrayGrupoEquipos(arrayEquiposGrupos);
+                        vincularAListaArrayGruposEquipos(arrayEquiposGrupos,listaEquipos);
+                        leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
+
                         system("@cls||clear");
                         puts("La base de datos de Partidos contiene ahora lo siguiente:\n");
                         imprimirArrayGrupoPartidos(arrayPartidosGrupos);
@@ -104,7 +120,13 @@ char menuPrincipal (int *faseGruposYaSimulada, char input, GrupoPartido arrayPar
         system("Pause");
     break;
     case '3': /// 3) Mostrar Partidos Playoffs.
-        simularPlayoffs(arrayPartidosGrupos, listaEquipos, arrayEquiposGrupos, arrayFase);
+        if (*faseGruposYaSimulada==1){
+            simularPlayoffs(arrayPartidosGrupos, listaEquipos, arrayEquiposGrupos, arrayFase);
+        }else{
+            printf("Debe simular la fase de grupos antes de iniciar los Playoffs.\n");
+            system("Pause");
+        }
+
     break;
     case '4': /// 4) Simular Partidos.
 
@@ -119,9 +141,9 @@ char menuPrincipal (int *faseGruposYaSimulada, char input, GrupoPartido arrayPar
                 printf("\n>>>> INICIO DE SIMULACION DE PARTIDOS, FASE DE GRUPOS:\n\n");
                 /// simulo con los arreglos inicializados, eliminando simulacion previa.
                 simularFaseDeGrupos(arrayPartidosGrupos, arrayEquiposGrupos, listaEquipos);
+                *faseGruposYaSimulada=1;
             }
             flag='n';
-            *faseGruposYaSimulada=1;
         }else{
             printf("\n\nLa fase de grupos ya fue simulada. Si desea volver a simularla, reinicie las bases de datos.\n\n");
             system("Pause");

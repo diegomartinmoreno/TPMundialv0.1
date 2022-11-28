@@ -79,7 +79,7 @@ void pasarGanadoresACuartos(fase arrayFase[]);
 void pasarEquiposASemis(nodoPartido* listaCuartos, nodoPartido** listaSemis);
 Equipo* perdedor(Partido match);///RETORNA EL EQUIPO PERDEDOR DEL PARTIDO
 void pasarEquiposATercerPuesto(nodoPartido* listaSemis, nodoPartido** listaTercerPuesto);
-void pasarEquiposAFinal(nodoPartido* listaSemis, nodoPartido** listaFinal);
+void pasarEquiposAFinal(nodoPartido* listaSemis, nodoPartido** listaTercerPuesto,  nodoPartido** listaFinal);
 void pasarGanadoresAFinal(fase arrayFase[]);
 void jugarFinal (fase arrayFase[]);
 void pasarGanadorYSegundoPuesto (nodoPartido * listaFinal);

@@ -9,7 +9,7 @@ void imprimirCabeceraMenuPrincipal(){
     printf("         _.-'___'-._\n");
     printf("       .'--.`   `.--'. \n");
     printf("      /.'   \\   /   `.\\ \n");
-    printf("     | /'-._/```\\_.-'\\  | \n");
+    printf("     | /'-._/```\\_.-'\\ | \n");
     printf("     |/    |     |    \\| \n");
     printf("     | \\ .''-._.-''. / | \n");
     printf("      \\ |     |     | / \n");
@@ -20,21 +20,21 @@ void imprimirCabeceraMenuPrincipal(){
 }
 
 void imprimirMenuPrincipal(){
-    printf("\n |-| 1) Mostrar Grupos. //FUNCIONA");
-    printf("\n |-| 2) Mostrar Partidos Fase de Grupos. //FUNCIONA");
+    printf("\n |-| 1) Mostrar Grupos.");
+    printf("\n |-| 2) Mostrar Partidos Fase de Grupos.");
     printf("\n |-| 3) Mostrar Partidos PlayOffs.");
     printf("\n |-| 4) Simular Partidos.");
-    printf("\n |-| 5) Submenu bases de datos //FUNCIONA");
-    printf("\n |-| 6) Salir. //FUNCIONA\n");
+    printf("\n |-| 5) Submenu bases de datos.");
+    printf("\n |-| 6) Salir.\n");
 }
 
 void imprimirSubMenuBases(){
-    printf("\n |-| 1) Cargar valores por defecto para base de EQUIPOS, fase de grupos. //FUNCIONA");
-    printf("\n |-| 2) Cargar valores por defecto para base de PARTIDOS, fase de grupos. //FUNCIONA");
-    printf("\n |-| 3) Reiniciar base de datos de EQUIPOS, fase de grupos. //FUNCIONA");
-    printf("\n |-| 4) Reiniciar base de datos de PARTIDOS, fase de grupos. //FUNCIONA");
-    printf("\n |-| 5) Agregar partido de fase de grupos. //FUNCIONA");
-    printf("\n |-| 6) Volver al menu principal. //FUNCIONA\n");
+    printf("\n |-| 1) Cargar valores por defecto para base de EQUIPOS, fase de grupos.");
+    printf("\n |-| 2) Cargar valores por defecto para base de PARTIDOS, fase de grupos.");
+    printf("\n |-| 3) Reiniciar base de datos de EQUIPOS, fase de grupos.");
+    printf("\n |-| 4) Reiniciar base de datos de PARTIDOS, fase de grupos.");
+    printf("\n |-| 5) Agregar partido de fase de grupos.");
+    printf("\n |-| 6) Volver al menu principal.\n");
 }
 
 /// FIN DE IMPRESIONES DE MENU PRINCIPAL.
@@ -114,6 +114,7 @@ void imprimirArrayGrupoPartidos (GrupoPartido arrayGrupoPartidos[]){
 
 /// IMPRIMIR PLAYOFFS
 
+/// TESTIMONIO DEL INTENTO DE BRACKET.
 /*
 void imprimirPlayoffs (fase arrayFase[])
 {
