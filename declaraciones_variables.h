@@ -1,12 +1,15 @@
 #ifndef DECLARACIONES_VARIABLES_H_INCLUDED
 #define DECLARACIONES_VARIABLES_H_INCLUDED
 
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+/// las librerias de abajo son para que el bendito generador de numeros random funcione.
 #include <time.h>
 #include <conio.h>
+#include <stddef.h>
+#include <unistd.h>
+#include <windows.h>
 
 #define TAM_MAX_GRUPOS 8
 #define TAM_MAX_GRUPO 4

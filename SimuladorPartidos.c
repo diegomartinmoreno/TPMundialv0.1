@@ -9,10 +9,24 @@
 
 void simularPartido (Partido *partidoAsimular)
 {
-    srand(time(NULL));
+    clock_t seed;
+    Sleep(10); /// milisegundos
+    seed=clock();
+    int intSeed= 0;
+    intSeed= (int)seed;
+    srand(intSeed);
+    int rand1 = (rand()%5);
 
-    int rand1 = (rand()%6);
-    int rand2 = (rand()%6);
+    Sleep(15); /// milisegundos
+    seed=clock();
+    intSeed= (int)seed;
+    srand(intSeed);
+    int rand2 = (rand()%5);
+
+    Sleep(20); /// milisegundos
+    seed=clock();
+    intSeed= (int)seed;
+    srand(intSeed);
     int randPenales = (rand()%100);
 
     partidoAsimular->golesEq1 = rand1; ///goles aleatorios para ambos equipos
@@ -26,8 +40,8 @@ void simularPartido (Partido *partidoAsimular)
     partidoAsimular->equipo2->gf += partidoAsimular->golesEq2;
     partidoAsimular->equipo2->ga += partidoAsimular->golesEq1;
     ///sumo partido
-    partidoAsimular->equipo1->mp++; ///REVISAR
-    partidoAsimular->equipo2->mp++; ///REVISAR
+    partidoAsimular->equipo1->mp++;
+    partidoAsimular->equipo2->mp++;
     ///ganar o perder
     if(partidoAsimular->golesEq1 > partidoAsimular->golesEq2)  ///gana equipo 1 /// verificar si entra en EMPATES
     {
@@ -83,9 +97,17 @@ void simularPartidoArreglado (Partido  *partidoAsimular, char equipoASimular1[],
 /// equipoASimular2= Qatar;
 
 {
-    srand(time(NULL));
-    int rand1 = (rand()%6+1);   ///que gane 5 a 0 como maximo
-    int rand2 = 0;
+    clock_t seed;
+    int intSeed= 0;
+
+    Sleep(10); /// milisegundos
+    seed=clock();
+    intSeed= (int)seed;
+    srand(intSeed);
+    int rand1 = ((rand()%5)+1);   ///que gane 1 a 0 como minimo, 5 a 0 como maximo
+
+    int rand2 = 0; /// No es random porque tiene que perder. Siempre 0.
+
     /// CUANDO ESTA ARREGLADO PARA UN SOLO EQUIPO.
     if(clasifica1==1){
         if(strcmpi(partidoAsimular->equipo1->nomEquipo, equipoASimular1)== 0)  ///Arreglado para que gane equipoASimular1. En ejemplo: gana Argentina.
@@ -160,20 +182,27 @@ void simularPartidoArreglado (Partido  *partidoAsimular, char equipoASimular1[],
     partidoAsimular->equipo2->gf += partidoAsimular->golesEq2;
     partidoAsimular->equipo2->ga += partidoAsimular->golesEq1;
     ///sumo partido
-    partidoAsimular->equipo1->mp++; ///REVISAR
-    partidoAsimular->equipo2->mp++; ///REVISAR
+    partidoAsimular->equipo1->mp++;
+    partidoAsimular->equipo2->mp++;
     ///ganar o perder
     if(partidoAsimular->golesEq1 > partidoAsimular->golesEq2)  ///gana equipo 1 /// verificar si entra en EMPATES
     {
+        partidoAsimular->equipo1->pts+=3;
         partidoAsimular->equipo1->win++;
         partidoAsimular->equipo2->loss++;
 
     }
     else if (partidoAsimular->golesEq2 > partidoAsimular->golesEq1) /// gana equipo 2
     {
+        partidoAsimular->equipo2->pts+=3;
         partidoAsimular->equipo2->win++;
         partidoAsimular->equipo1->loss++;
     }
+    if (partidoAsimular->golesEq2 == partidoAsimular->golesEq1){ /// empate
+        partidoAsimular->equipo2->pts++;
+        partidoAsimular->equipo1->pts++;
+    }
+    /// Esta funcion no se utiliza en playoffs asi que los empates son sin penales.
 }
 
 int verificarSiEstaEquipoEnGrupo (nodoGrupoEquipo *listaEquiposGrupo, char equipoBuscado[]){
@@ -200,7 +229,7 @@ void simularFaseDeGrupos (GrupoPartido arrayPartidosGrupos[], Grupo arrayEquipos
 
     for (int i=0; i<TAM_MAX_GRUPOS; i++){ /// REPITO TODO EL MENU PARA CADA GRUPO.
 
-        printf("Desea elegir un resultado para la clasificacion de algun equipo del grupo %c? Puede elegir hasta 2 equipos. (s/n)", idGrupos[i]);
+        printf("\nDesea elegir un resultado para la clasificacion de algun equipo del grupo %c? Puede elegir hasta 2 equipos. (s/n)\n", idGrupos[i]);
         fflush(stdin);
         gets (&continuar);
         if(continuar == 's' || continuar == 'S') /// Si arreglo al menos un equipo...
@@ -223,7 +252,7 @@ void simularFaseDeGrupos (GrupoPartido arrayPartidosGrupos[], Grupo arrayEquipos
                 scanf("%i", &clasifica1);
             } while ( clasifica1 > 2 );
 
-            printf("Desea elegir un resultado para la clasificacion de otro equipo del grupo %c? Puede elegir hasta 2 equipos. (s/n)", idGrupos[i]);
+            printf("Desea elegir un resultado para la clasificacion de otro equipo del grupo %c? Puede elegir hasta 2 equipos. (s/n)\n", idGrupos[i]);
             fflush(stdin);
             gets (&continuar);
             if(continuar == 's' || continuar == 'S'){ /// SEGUNDO EQUIPO ARREGLADO.
@@ -429,7 +458,8 @@ void simularPlayoffs(GrupoPartido arrayPartidosGrupos [], nodoEquipo * listaEqui
     int faseDeGruposTerminada = ChequearFaseDeGrupo(listaEquipos);
     if(faseDeGruposTerminada == 0)
     {
-        printf("Todavia no se termino de jugar la fase de grupos.");
+        printf("Todavia no se termino de jugar la fase de grupos.\n\n");
+        system("pause");
     }
     else
     {
@@ -439,9 +469,8 @@ void simularPlayoffs(GrupoPartido arrayPartidosGrupos [], nodoEquipo * listaEqui
         pasarGanadoresATercerPuesto(arrayFase);
         pasarGanadoresAFinal(arrayFase);
         jugarFinal(arrayFase);
-
+        imprimirPlayoffs(arrayFase);
     }
-
 }
 
 

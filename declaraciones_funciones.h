@@ -50,7 +50,7 @@ void imprimirArrayGrupoPartidos (GrupoPartido arrayGrupoPartidos[]);
 
 /*----------------------------------------*/
 ///procesamientoMenuPrincipal.c
-char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos);
+char menuPrincipal (int *faseGruposYaSimulada, char input, GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos);
 void iniciarMenuPrincipal(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos);
 void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos);
 
@@ -65,7 +65,7 @@ void simularFaseDeGrupos (GrupoPartido arrayPartidosGrupos[], Grupo arrayEquipos
 void simulaGrupo (nodoPartido *partidosGrupo);  ///funcion primaria. Simula grupo aleatoriamente
 void simulaGrupoArreglado (nodoPartido *partidosGrupo, char equipoASimular1[], char equipoASimular2[], int clasifica1, int clasifica2); ///simula un grupo con resultado arreglado
 int ChequearFaseDeGrupo (nodoEquipo *listaEquipos); ///chequea que todos los equipos hayan terminado la fase de grupos
-verificarSiEstaEquipoEnGrupo (nodoGrupoEquipo *listaEquiposGrupo, char equipoBuscado[]);
+int verificarSiEstaEquipoEnGrupo (nodoGrupoEquipo *listaEquiposGrupo, char equipoBuscado[]);
 
 ///mati
 Equipo* retornarPrimeroDelGrupo(nodoGrupoEquipo* listaEquipo);

@@ -312,12 +312,12 @@ void inicializarPartido(Partido *nuevo){
     /// Nota: Dentro de la estructura Partido, el valor -1 (int) o NULL representa el estado de variable no asignada aun.
     nuevo->equipo1=NULL;
     nuevo->equipo2=NULL;
-    nuevo->fecha=-1;
-    nuevo->golesEq1=-1;
-    nuevo->golesEq2=-1;
-    nuevo->id=-1;
-    nuevo->penales1=-1;
-    nuevo->penales2=-1;
+    nuevo->fecha=0;
+    nuevo->golesEq1=0;
+    nuevo->golesEq2=0;
+    nuevo->id=0;
+    nuevo->penales1=0;
+    nuevo->penales2=0;
 }
 
 void inicializarArrayGrupoPartidos(GrupoPartido arrayGrupoPartidos[]){

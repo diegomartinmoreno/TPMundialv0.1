@@ -92,7 +92,7 @@ void subMenuBasesDeDatos(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], G
     }while (flag!='s');
 }
 
-char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos){ ///nodoEquipo *listaEquipos
+char menuPrincipal (int *faseGruposYaSimulada, char input, GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos){ ///nodoEquipo *listaEquipos
     char flag='n';
     switch (input){
     case '1': /// 1) Mostrar Grupos.
@@ -105,17 +105,36 @@ char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFa
     break;
     case '3': /// 3) Mostrar Partidos Playoffs.
         simularPlayoffs(arrayPartidosGrupos, listaEquipos, arrayEquiposGrupos, arrayFase);
-        imprimirPlayoffs(arrayFase);
     break;
     case '4': /// 4) Simular Partidos.
-        simularFaseDeGrupos(arrayPartidosGrupos, arrayEquiposGrupos, listaEquipos);
+
+        flag='n';
+        if (*faseGruposYaSimulada==0){
+            printf("\n Iniciar simulacion de fase de grupos?S/N\n");
+            fflush(stdin);
+            scanf("%c", &flag);
+            flag=tolower(flag);
+            if (flag=='s'){
+                system("@cls||clear");
+                printf("\n>>>> INICIO DE SIMULACION DE PARTIDOS, FASE DE GRUPOS:\n\n");
+                /// simulo con los arreglos inicializados, eliminando simulacion previa.
+                simularFaseDeGrupos(arrayPartidosGrupos, arrayEquiposGrupos, listaEquipos);
+            }
+            flag='n';
+            *faseGruposYaSimulada=1;
+        }else{
+            printf("\n\nLa fase de grupos ya fue simulada. Si desea volver a simularla, reinicie las bases de datos.\n\n");
+            system("Pause");
+        }
     break;
     case '5': /// 5) Ingresar al submenu de bases de datos.
         subMenuBasesDeDatos(arrayPartidosGrupos,arrayFase,arrayEquiposGrupos,listaEquipos); /// MODIFICO LAS BASES DE DATOS.
         /// LEVANTO LAS MODIFICACIONES HECHAS.
         listaEquipos=leerListaEquipos();
-        vincularAListaArrayGruposEquipos(arrayEquiposGrupos, listaEquipos);
-        leerYVincularBaseArrayPartidos(arrayPartidosGrupos,listaEquipos);
+        inicializarArrayGrupoEquipos(arrayEquiposGrupos);
+        vincularAListaArrayGruposEquipos(arrayEquiposGrupos,listaEquipos);
+        leerYVincularBaseArrayPartidos(arrayPartidosGrupos, listaEquipos);
+        *faseGruposYaSimulada=0;
     break;
     case '6': /// 6) Salir.
             flag='n';
@@ -133,13 +152,14 @@ char menuPrincipal (char input, GrupoPartido arrayPartidosGrupos[], fase arrayFa
 void iniciarMenuPrincipal(GrupoPartido arrayPartidosGrupos[], fase arrayFase[], Grupo arrayEquiposGrupos[], nodoEquipo *listaEquipos){
     char input=0;
     char flag='n';
+    int faseGruposYaSimulada=0;
     do{
         system("@cls||clear");
         imprimirCabeceraMenuPrincipal();
         imprimirMenuPrincipal();
         fflush(stdin);
         input=getc(stdin);
-        flag=menuPrincipal(input, arrayPartidosGrupos, arrayFase, arrayEquiposGrupos, listaEquipos);
+        flag=menuPrincipal(&faseGruposYaSimulada, input, arrayPartidosGrupos, arrayFase, arrayEquiposGrupos, listaEquipos);
     }while (flag!='s');
 
 }

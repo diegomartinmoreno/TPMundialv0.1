@@ -72,20 +72,21 @@ void imprimirArrayGrupo (Grupo arrayGrupo[]){
 
 
 void imprimirUnSoloPartido(Partido imprimir, int mostrarResultados){ /// mostrarResultados=1 SI muestra resultados. mostrarResultados=0 NO muestra resultados.
-    div_t dia=div(imprimir.fecha, 100);
-    int mes=imprimir.fecha%100;
+    div_t dia_t= div(imprimir.fecha, 100);
+    int dia=dia_t.quot; /// USANDO COCIENTE
+    int mes= imprimir.fecha % 100;
     if(mostrarResultados){
-        if (imprimir.golesEq1<=imprimir.golesEq2){ /// Gano equipo 1 o empataron.
-            printf ("PARTIDO: %i %s Vs. %i %s  ||  Fecha: %i.\n", imprimir.golesEq1, imprimir.equipo1, imprimir.golesEq2, imprimir.equipo2, imprimir.fecha);
+        if (imprimir.golesEq1>=imprimir.golesEq2){ /// Gano equipo 1 o empataron.
+            printf ("PARTIDO: %i %s Vs. %i %s  ||  Fecha: %i/%i.\n", imprimir.golesEq1, imprimir.equipo1->nomEquipo, imprimir.golesEq2, imprimir.equipo2->nomEquipo, dia, mes);
         }
-        if (imprimir.golesEq1>imprimir.golesEq2){ /// Gano equipo 2.
-            printf ("PARTIDO: %i %s Vs. %i %s  ||  Fecha: %i.\n", imprimir.golesEq2, imprimir.equipo2, imprimir.golesEq1, imprimir.equipo1, imprimir.fecha);
+        if (imprimir.golesEq1<imprimir.golesEq2){ /// Gano equipo 2.
+            printf ("PARTIDO: %i %s Vs. %i %s  ||  Fecha: %i/%i.\n", imprimir.golesEq2, imprimir.equipo2->nomEquipo, imprimir.golesEq1, imprimir.equipo1->nomEquipo, dia, mes);
         }
         if (imprimir.golesEq1==imprimir.golesEq2&&imprimir.penales2){ /// desempate por penales.
-            printf ("PARTIDO: %i %s(%i) Vs. %i %s(%i)  ||  Fecha: %i.\n", imprimir.golesEq1, imprimir.equipo1, imprimir.penales1, imprimir.golesEq2, imprimir.equipo2, imprimir.penales2, imprimir.fecha);
+            printf ("PARTIDO: %i %s(%i) Vs. %i %s(%i)  ||  Fecha: %i/%i.\n", imprimir.golesEq1, imprimir.equipo1->nomEquipo, imprimir.penales1, imprimir.golesEq2, imprimir.equipo2->nomEquipo, imprimir.penales2, dia, mes);
         }
     }else{ /// partido no jugado/simulado aun.
-        printf ("PARTIDO: %s Vs. %s || Fecha: %i/%i || INDEFINIDO.\n", imprimir.equipo1, imprimir.equipo2, dia, mes);
+        printf ("PARTIDO: %s Vs. %s || Fecha: %i/%i || INDEFINIDO.\n", imprimir.equipo1->nomEquipo, imprimir.equipo2->nomEquipo, dia, mes);
     }
 }
 
